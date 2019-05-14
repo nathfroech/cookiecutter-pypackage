@@ -14,3 +14,7 @@ watch: bake
 replay: BAKE_OPTIONS=--replay
 replay: watch
 	;
+
+.PHONY: update_requirements
+update_requirements:
+	bash helpers/update_requirements.sh

@@ -94,3 +94,7 @@ dist: clean ## builds source and wheel package
 
 install: clean ## install the package to the active Python's site-packages
 	python setup.py install
+
+.PHONY: update_requirements
+update_requirements:
+	bash helpers/update_requirements.sh

@@ -54,73 +54,76 @@ If you are proposing a new feature:
 Get Started!
 ------------
 
-Ready to contribute? Here's how to set up `cookiecutter-pypackage` for local development. Please note this documentation assumes
-you already have `virtualenv` and `Git` installed and ready to go.
+Ready to contribute? Here's how to set up ``cookiecutter-pypackage`` for local development. Please note this documentation assumes
+you already have ``virtualenv`` and ``Git`` installed and ready to go.
 
-1. Fork the `cookiecutter-pypackage` repo on GitHub.
-2. Clone your fork locally::
+1. Fork the ``cookiecutter-pypackage`` repo on GitHub.
+2. Clone your fork locally:
 
-  .. code-block:: bash
+.. code-block:: bash
 
-    $ cd path_for_the_repo
-    $ git clone git@github.com:YOUR_NAME/cookiecutter-pypackage.git
+  cd path_for_the_repo
+  git clone git@github.com:YOUR_NAME/cookiecutter-pypackage.git
 
-3. Assuming you have virtualenv installed (If you have Python3.5 this should already be there), you can create a new environment for your local development by typing::
+3. Assuming you have virtualenv installed (If you have Python3.5 this should already be there), you can create a new environment for your local development by typing:
 
-  .. code-block:: bash
+.. code-block:: bash
 
-    $ virtualenv cookiecutter-pypackage-env
-    $ source cookiecutter-pypackage-env/bin/activate
+  virtualenv cookiecutter-pypackage-env
+  source cookiecutter-pypackage-env/bin/activate
 
-    This should change the shell to look something like
-    (cookiecutter-pypackage-env) $
+This should change the shell to look something like::
 
-4. Create a branch for local development::
+(cookiecutter-pypackage-env) $
 
-  .. code-block:: bash
+4. Create a branch for local development:
 
-    $ git checkout -b name-of-your-bugfix-or-feature
+.. code-block:: bash
 
-   Now you can make your changes locally.
+  git checkout -b name-of-your-bugfix-or-feature
 
-5. When you're done making changes, check that your changes pass flake8. Since, this package contains mostly templates the flake should
-   be run for tests directory::
+Now you can make your changes locally.
 
-  .. code-block:: bash
+5. When you're done making changes, check that your changes pass flake8. Since, this package contains mostly templates
+   the flake should be run for tests directory:
 
-    $ flake8 ./tests
+.. code-block:: bash
 
-6. The next step would be to run the test cases. `cookiecutter-pypackage` uses py.test, you can run PyTest. Before you run pytest you should ensure all dependancies are installed::
+  flake8 ./tests
 
-  .. code-block:: bash
+6. The next step would be to run the test cases. ``cookiecutter-pypackage`` uses py.test, you can run PyTest. Before you
+   run pytest you should ensure all dependancies are installed:
 
-    $ pip install -rrequirements.txt
-    $ py.test ./tests
+.. code-block:: bash
 
-   If you get any errors while installing cryptography package (something like #include <openssl/aes.h>).
-   Please update your pip version and try again::
+  pip install -rrequirements.txt
+  py.test ./tests
 
-    # Update pip
-    $ pip install -U pip
+If you get any errors while installing cryptography package (something like #include <openssl/aes.h>).
+Please update your pip version and try again:
 
-7. Before raising a pull request you should also run tox. This will run the tests across different versions of Python::
+.. code-block:: bash
 
-  .. code-block:: bash
+  pip install -U pip
 
-    $ tox
+7. Before raising a pull request you should also run tox. This will run the tests across different versions of Python:
 
-   .. note::
-      If you are missing flake8, pytest and/or tox, just pip install them into your virtualenv.
+.. code-block:: bash
+
+  tox
+
+.. note::
+  If you are missing flake8, pytest and/or tox, just pip install them into your virtualenv.
 
 8. If your contribution is a bug fix or new feature, you may want to add a test to the existing test suite. See section Add a New Test below for details.
 
-9. Commit your changes and push your branch to GitHub::
+9. Commit your changes and push your branch to GitHub:
 
-  .. code-block:: bash
+.. code-block:: bash
 
-    $ git add .
-    $ git commit -m "Your detailed description of your changes."
-    $ git push origin name-of-your-bugfix-or-feature
+  git add .
+  git commit -m "Your detailed description of your changes."
+  git push origin name-of-your-bugfix-or-feature
 
 10. Submit a pull request through the GitHub website.
 
@@ -145,7 +148,7 @@ When fixing a bug or adding features, it's good practice to add a test to demons
 
 To write and run your new test, follow these steps:
 
-1. Add the new test to `tests/test_bake_project.py`. Focus your test on the specific bug or a small part of the new feature.
+1. Add the new test to ``tests/test_bake_project.py``. Focus your test on the specific bug or a small part of the new feature.
 
 2. If you have already made changes to the code, stash your changes and confirm all your changes were stashed::
 

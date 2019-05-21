@@ -7,7 +7,7 @@ Cookiecutter PyPackage
      :alt: Updates
 
 .. image:: https://travis-ci.org/audreyr/cookiecutter-pypackage.svg?branch=master
-    :target: https://travis-ci.org/audreyr/cookiecutter-pypackage     
+    :target: https://travis-ci.org/audreyr/cookiecutter-pypackage
 
 Cookiecutter_ template for a Python package.
 
@@ -60,12 +60,17 @@ Then:
 * Create a repo and put it there.
 * Add the repo to your Travis-CI_ account.
 * Install the dev requirements into a virtualenv. (``make update_requirements``)
+* Run ``pre-commit`` to be sure there are no check failures or unneeded checks.::
+
+    pre-commit install
+    pre-commit run --all-files
+
 * Register_ your project with PyPI.
-* Run the Travis CLI command `travis encrypt --add deploy.password` to encrypt your PyPI password in Travis config
+* Run the Travis CLI command ``travis encrypt --add deploy.password`` to encrypt your PyPI password in Travis config
   and activate automated deployment on PyPI when you push a new tag to master branch.
 * Add the repo to your ReadTheDocs_ account + turn on the ReadTheDocs service hook.
 * Release your package by pushing a new tag to master.
-* Update a `requirements/base.in` file that specifies the packages you will need for
+* Update a ``requirements/base.in`` file that specifies the packages you will need for
   your project and their versions. For more info see the `pip docs for requirements files`_.
 * Activate your project on `pyup.io`_.
 
@@ -85,7 +90,7 @@ Similar Cookiecutter Templates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * `Nekroze/cookiecutter-pypackage`_: A fork of this with a PyTest test runner,
-  strict flake8 checking with Travis/Tox, and some docs and `setup.py` differences.
+  strict flake8 checking with Travis/Tox, and some docs and ``setup.py`` differences.
 
 * `tony/cookiecutter-pypackage-pythonic`_: Fork with py2.7+3.3 optimizations.
   Flask/Werkzeug-style test runner, ``_compat`` module and module/doc conventions.
@@ -98,7 +103,7 @@ Similar Cookiecutter Templates
 
 * Also see the `network`_ and `family tree`_ for this repo. (If you find
   anything that should be listed here, please add it and send a pull request!)
-  
+
 Support this Project
 ~~~~~~~~~~~~~~~~~~~~~
 

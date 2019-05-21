@@ -20,7 +20,7 @@ deploy:
   user: audreyr
   password:
     secure: PLEASE_REPLACE_ME
-  on:
+  on:  # yamllint disable-line rule:truthy
     tags: true
     repo: audreyr/python_boilerplate
     python: 2.7

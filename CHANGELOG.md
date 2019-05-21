@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Updated `.editorconfig` content (@nathfroech)
 - Added `pip-tools` for requirements management (@nathfroech)
+- Added `pre-commit` for running linters against commited changes (@nathfroech)
 
 ## [2019-05-09]
 - Forked from original repository.

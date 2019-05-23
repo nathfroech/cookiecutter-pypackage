@@ -1,12 +1,16 @@
-pytest==3.4.2
 tox==2.9.1
 cookiecutter>=1.4.0
-pytest-cookies==0.3.0
 watchdog==0.8.3
 alabaster==0.7.10
+
+# Tests
+pytest==3.4.2
+pytest-cookies==0.3.0
+pytest-cases
+sh  # Needed for test for passing linters checks only
 
 # Linters
 pre-commit
 yamllint
 restructuredtext-lint
-pygments # Required for restructuredtext-lint
+pygments  # Required for restructuredtext-lint

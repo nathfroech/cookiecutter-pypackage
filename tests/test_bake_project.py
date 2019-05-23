@@ -3,11 +3,15 @@ import shlex
 import os
 import sys
 import subprocess
+
+import pytest
+import sh
 import yaml
 import datetime
 from cookiecutter.utils import rmtree
 
 from click.testing import CliRunner
+from pytest_cases import pytest_fixture_plus
 
 if sys.version_info > (3, 0):
     import importlib
@@ -125,7 +129,7 @@ def test_bake_with_apostrophe_and_run_tests(cookies):
 
 def test_bake_without_travis_pypi_setup(cookies):
     with bake_in_temp_dir(cookies, extra_context={'use_pypi_deployment_with_travis': 'n'}) as result:
-        result_travis_config = yaml.load(result.project.join(".travis.yml").open())
+        result_travis_config = yaml.load(result.project.join(".travis.yml").open(), yaml.FullLoader)
         assert "deploy" not in result_travis_config
         assert "python" == result_travis_config["language"]
         found_toplevel_files = [f.basename for f in result.project.listdir()]
@@ -261,3 +265,57 @@ def test_bake_with_console_script_cli(cookies):
     help_result = runner.invoke(cli.main, ['--help'])
     assert help_result.exit_code == 0
     assert 'Show this message' in help_result.output
+
+
+YN_CHOICES = ['y', 'n']
+LICENSE_CHOICES = ['MIT license', 'BSD license', 'ISC license', 'Apache Software License 2.0',
+                   'GNU General Public License v3', 'Not open source']
+
+
+@pytest_fixture_plus
+@pytest.mark.parametrize('use_pytest', YN_CHOICES, ids=lambda yn: f'pytest:{yn}')
+@pytest.mark.parametrize('use_pypi_deployment_with_travis', YN_CHOICES, ids=lambda yn: f'pypi_travis:{yn}')
+@pytest.mark.parametrize('add_pyup_badge', YN_CHOICES, ids=lambda yn: f'pyup:{yn}')
+@pytest.mark.parametrize('command_line_interface', ['Click', 'No command-line interface'],
+                         ids=lambda yn: f'cli:{yn.lower()}')
+@pytest.mark.parametrize('create_author_file', YN_CHOICES, ids=lambda yn: f'author:{yn}')
+@pytest.mark.parametrize(
+    'open_source_license',
+    LICENSE_CHOICES,
+    ids=lambda yn: 'license:{}'.format({yn.lower().replace(' ', '_').replace('.', '_')})
+)
+def context_combination(
+    use_pytest,
+    use_pypi_deployment_with_travis,
+    add_pyup_badge,
+    command_line_interface,
+    create_author_file,
+    open_source_license,
+):
+    """Fixture that parametrize the function where it's used."""
+    return {
+        'use_pytest': use_pytest,
+        'use_pypi_deployment_with_travis': use_pypi_deployment_with_travis,
+        'add_pyup_badge': add_pyup_badge,
+        'command_line_interface': command_line_interface,
+        'create_author_file': create_author_file,
+        'open_source_license': open_source_license,
+    }
+
+
+def test_linting_passes(cookies, context_combination):
+    """
+    Generated project should pass pre-commit.
+
+    This is parametrized for each combination from ``context_combination`` fixture
+    """
+    result = cookies.bake(extra_context=context_combination)
+    project_path = str(result.project)
+
+    try:
+        sh.git('init', _cwd=project_path)
+        sh.git('add', '.', _cwd=project_path)
+        sh.pre_commit('install', _cwd=project_path)
+        sh.pre_commit('run', '--all-files', _cwd=project_path)
+    except sh.ErrorReturnCode as e:
+        pytest.fail(e.stdout)

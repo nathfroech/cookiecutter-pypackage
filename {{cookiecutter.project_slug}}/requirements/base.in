@@ -2,4 +2,5 @@
 
 bumpversion==0.5.3
 {% if cookiecutter.command_line_interface == 'y' -%}
-click==6.7{% endif %}
+click==6.7
+{% endif %}

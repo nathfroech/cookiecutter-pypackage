@@ -27,9 +27,6 @@ repos:
       - id: check-merge-conflict  # Check for files that contain merge conflict strings.
         stages:
           - commit
-      - id: check-symlinks  # Checks for symlinks which do not point to anything.
-        stages:
-          - commit
       - id: check-vcs-permalinks  # Ensures that links to vcs websites are permalinks.
         stages:
           - commit
@@ -73,12 +70,6 @@ repos:
       - id: debug-statements  # Check for debugger imports and py37+ `breakpoint()` calls in python source.
         stages:
           - commit
-  - repo: https://github.com/asottile/setup-cfg-fmt
-    rev: v1.1.0
-    hooks:
-      - id: setup-cfg-fmt  # Apply a consistent format to `setup.cfg` files.
-        stages:
-          - commit
   - repo: local
     hooks:
       - id: python-check-noqa-case
@@ -111,12 +102,6 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v2.2.3
     hooks:
-      - id: check-json  # This hook checks json files for parseable syntax.
-        stages:
-          - commit
-      - id: check-xml  # This hook checks xml files for parseable syntax.
-        stages:
-          - commit
       - id: detect-private-key  # Detects the presence of private keys
         stages:
           - commit

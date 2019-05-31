@@ -13,6 +13,8 @@ from cookiecutter.utils import rmtree
 from click.testing import CliRunner
 from pytest_cases import pytest_fixture_plus
 
+import settings
+
 if sys.version_info > (3, 0):
     import importlib
 else:
@@ -91,25 +93,18 @@ def test_bake_with_defaults(cookies):
         assert 'tests' in found_toplevel_files
 
 
-def test_bake_and_run_tests(cookies):
-    with bake_in_temp_dir(cookies) as result:
+@pytest.mark.parametrize('name', [
+    pytest.param('Alice Liddell', id='simple_name'),
+    pytest.param('name "quote" name', id='name_with_quotes'),
+    pytest.param("O'connor", id='name_with_apostrophe'),
+])
+def test_bake_and_run_tests(name, cookies):
+    """Ensure that a `full_name` with certain symbols does not break setup.py."""
+    with bake_in_temp_dir(cookies, extra_context={'full_name': name}) as result:
         assert result.project.isdir()
-        run_inside_dir('python setup.py test', str(result.project)) == 0
-        print("test_bake_and_run_tests path", str(result.project))
-
-
-def test_bake_withspecialchars_and_run_tests(cookies):
-    """Ensure that a `full_name` with double quotes does not break setup.py"""
-    with bake_in_temp_dir(cookies, extra_context={'full_name': 'name "quote" name'}) as result:
-        assert result.project.isdir()
-        run_inside_dir('python setup.py test', str(result.project)) == 0
-
-
-def test_bake_with_apostrophe_and_run_tests(cookies):
-    """Ensure that a `full_name` with apostrophes does not break setup.py"""
-    with bake_in_temp_dir(cookies, extra_context={'full_name': "O'connor"}) as result:
-        assert result.project.isdir()
-        run_inside_dir('python setup.py test', str(result.project)) == 0
+        test_file_path = result.project.join('tests', 'test_python_boilerplate.py')
+        assert os.path.isfile(test_file_path)
+        assert run_inside_dir('make test', str(result.project)) == 0
 
 
 # def test_bake_and_run_travis_pypi_setup(cookies):
@@ -179,27 +174,6 @@ def test_bake_not_open_source(cookies):
         assert 'setup.py' in found_toplevel_files
         assert 'LICENSE' not in found_toplevel_files
         assert 'License' not in result.project.join('README.rst').read()
-
-
-def test_using_pytest(cookies):
-    with bake_in_temp_dir(cookies, extra_context={'use_pytest': 'y'}) as result:
-        assert result.project.isdir()
-        test_file_path = result.project.join('tests/test_python_boilerplate.py')
-        lines = test_file_path.readlines()
-        assert "import pytest" in ''.join(lines)
-        # Test the new pytest target
-        run_inside_dir('python setup.py pytest', str(result.project)) == 0
-        # Test the test alias (which invokes pytest)
-        run_inside_dir('python setup.py test', str(result.project)) == 0
-
-
-def test_not_using_pytest(cookies):
-    with bake_in_temp_dir(cookies) as result:
-        assert result.project.isdir()
-        test_file_path = result.project.join('tests/test_python_boilerplate.py')
-        lines = test_file_path.readlines()
-        assert "import unittest" in ''.join(lines)
-        assert "import pytest" not in ''.join(lines)
 
 
 # def test_project_with_hyphen_in_module_name(cookies):
@@ -273,7 +247,6 @@ LICENSE_CHOICES = ['MIT license', 'BSD license', 'ISC license', 'Apache Software
 
 
 @pytest_fixture_plus
-@pytest.mark.parametrize('use_pytest', YN_CHOICES, ids=lambda yn: f'pytest:{yn}')
 @pytest.mark.parametrize('use_pypi_deployment_with_travis', YN_CHOICES, ids=lambda yn: f'pypi_travis:{yn}')
 @pytest.mark.parametrize('add_pyup_badge', YN_CHOICES, ids=lambda yn: f'pyup:{yn}')
 @pytest.mark.parametrize('command_line_interface', ['Click', 'No command-line interface'],
@@ -285,7 +258,6 @@ LICENSE_CHOICES = ['MIT license', 'BSD license', 'ISC license', 'Apache Software
     ids=lambda yn: 'license:{}'.format({yn.lower().replace(' ', '_').replace('.', '_')})
 )
 def context_combination(
-    use_pytest,
     use_pypi_deployment_with_travis,
     add_pyup_badge,
     command_line_interface,
@@ -294,7 +266,6 @@ def context_combination(
 ):
     """Fixture that parametrize the function where it's used."""
     return {
-        'use_pytest': use_pytest,
         'use_pypi_deployment_with_travis': use_pypi_deployment_with_travis,
         'add_pyup_badge': add_pyup_badge,
         'command_line_interface': command_line_interface,
@@ -309,7 +280,7 @@ def test_linting_passes(cookies, context_combination):
 
     This is parametrized for each combination from ``context_combination`` fixture
     """
-    result = cookies.bake(extra_context=context_combination)
+    result = cookies.bake(extra_context=context_combination, template=str(settings.BASE_DIR))
     project_path = str(result.project)
 
     try:

@@ -53,25 +53,17 @@ clean-test: ## remove test and coverage artifacts
 lint: ## check style with flake8
 	flake8 {{ cookiecutter.project_slug }} tests
 
+.PHONY: test
 test: ## run tests quickly with the default Python
-{%- if cookiecutter.use_pytest == 'y' %}
-	py.test
-{%- else %}
-	python setup.py test
-{%- endif %}
+	@pytest -c setup.cfg
 
+.PHONY: test-all
 test-all: ## run tests on every Python version with tox
 	tox
 
+.PHONY: coverage
 coverage: ## check code coverage quickly with the default Python
-{%- if cookiecutter.use_pytest == 'y' %}
-	coverage run --source {{ cookiecutter.project_slug }} -m pytest
-{%- else %}
-	coverage run --source {{ cookiecutter.project_slug }} setup.py test
-{%- endif %}
-	coverage report -m
-	coverage html
-	$(BROWSER) htmlcov/index.html
+	@pytest -c setup.cfg --cov-config setup.cfg -s --cov-report term --cov {{ cookiecutter.project_slug }}
 
 docs: ## generate Sphinx HTML documentation, including API docs
 	rm -f docs/{{ cookiecutter.project_slug }}.rst

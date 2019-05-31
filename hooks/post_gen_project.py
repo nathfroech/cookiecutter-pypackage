@@ -12,7 +12,7 @@ def remove_file(filepath):
 
 def clean_file_contents():
     """Clean generated files from trailing whitespaces and extra newlines."""
-    for file_path in pathlib.Path().absolute().rglob('*'):
+    for file_path in pathlib.Path(PROJECT_DIRECTORY).rglob('*'):
         if file_path.is_file():
             content = file_path.read_text()
 
@@ -35,9 +35,6 @@ if __name__ == '__main__':
     if '{{ cookiecutter.create_author_file }}' != 'y':
         remove_file('AUTHORS.rst')
         remove_file('docs/authors.rst')
-
-    if '{{ cookiecutter.use_pytest }}' == 'y':
-        remove_file('tests/__init__.py')
 
     if 'no' in '{{ cookiecutter.command_line_interface|lower }}':
         cli_file = os.path.join('{{ cookiecutter.project_slug }}', 'cli.py')

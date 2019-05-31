@@ -45,6 +45,19 @@ requirements/<file_name>.txt``.
 For compatibility with traditional project structure there is also ``requirements.txt`` file at project root, which
 simply links to ``requirements/production.txt``.
 
+Tests
+^^^^^
+
+Project uses ``pytest`` for testing.
+
+All tests should be placed inside ``tests/`` directory and (ideally) follow the project structure - for example, tests
+for ``{{cookiecutter.project_slug}}.some_package.some_module`` should be located at
+``tests/some_package/test_some_module.py``
+
+To run tests: ``make test``.
+To run tests and receive a coverage statistics: ``make coverage``.
+
+
 Features
 --------
 

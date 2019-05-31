@@ -8,6 +8,7 @@ alabaster==0.7.10
 argh==0.26.2              # via watchdog
 arrow==0.13.1             # via jinja2-time
 aspy.yaml==1.2.0          # via pre-commit
+atomicwrites==1.3.0       # via pytest
 attrs==19.1.0             # via pytest
 binaryornot==0.4.4        # via cookiecutter
 certifi==2019.3.9         # via requests
@@ -20,24 +21,25 @@ docutils==0.14            # via restructuredtext-lint
 future==0.17.1            # via cookiecutter
 identify==1.4.3           # via pre-commit
 idna==2.8                 # via requests
-importlib-metadata==0.12  # via pre-commit
+importlib-metadata==0.12  # via pluggy, pre-commit
 importlib-resources==1.0.2  # via pre-commit
 jinja2-time==0.2.0        # via cookiecutter
 jinja2==2.10.1            # via cookiecutter, jinja2-time
 makefun==1.6.8            # via decopatch, pytest-cases
 markupsafe==1.1.1         # via jinja2
+more-itertools==7.0.0     # via pytest
 nodeenv==1.3.3            # via pre-commit
 pathspec==0.5.9           # via yamllint
 pathtools==0.1.2          # via watchdog
 pip-tools==3.7.0
-pluggy==0.6.0             # via pytest, tox
+pluggy==0.12.0            # via pytest, tox
 poyo==0.4.2               # via cookiecutter
 pre-commit==1.16.1
 py==1.8.0                 # via pytest, tox
 pygments==2.4.0
 pytest-cases==1.6.2
 pytest-cookies==0.3.0
-pytest==3.4.2
+pytest==4.5.0
 python-dateutil==2.8.0    # via arrow
 pyyaml==5.1               # via aspy.yaml, pre-commit, watchdog, yamllint
 requests==2.21.0          # via cookiecutter
@@ -49,6 +51,7 @@ tox==2.9.1
 urllib3==1.24.3           # via requests
 virtualenv==16.5.0        # via pre-commit, tox
 watchdog==0.8.3
+wcwidth==0.1.7            # via pytest
 whichcraft==0.5.2         # via cookiecutter
 wrapt==1.11.1             # via pytest-cases
 yamllint==1.15.0

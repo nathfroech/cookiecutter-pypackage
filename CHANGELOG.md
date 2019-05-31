@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added `pre-commit` for running linters against commited changes (@nathfroech)
 ### Changed
 - Updated `.editorconfig` content (@nathfroech)
+- Made `pytest` mandatory (@nathfroech)
 
 ## [2019-05-09]
 - Forked from original repository.

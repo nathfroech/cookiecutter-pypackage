@@ -1,18 +1,17 @@
 #!/usr/bin/env python
-import os
 import pathlib
 import re
 
-PROJECT_DIRECTORY = os.path.realpath(os.path.curdir)
+PROJECT_DIRECTORY = pathlib.Path.cwd()
 
 
-def remove_file(filepath):
-    os.remove(os.path.join(PROJECT_DIRECTORY, filepath))
+def remove_file(*filepath_terms: str):
+    PROJECT_DIRECTORY.joinpath(*filepath_terms).unlink()
 
 
 def clean_file_contents():
     """Clean generated files from trailing whitespaces and extra newlines."""
-    for file_path in pathlib.Path(PROJECT_DIRECTORY).rglob('*'):
+    for file_path in PROJECT_DIRECTORY.rglob('*'):
         if file_path.is_file():
             content = file_path.read_text()
 
@@ -34,11 +33,10 @@ if __name__ == '__main__':
 
     if '{{ cookiecutter.create_author_file }}' != 'y':
         remove_file('AUTHORS.rst')
-        remove_file('docs/authors.rst')
+        remove_file('docs', 'authors.rst')
 
     if 'no' in '{{ cookiecutter.command_line_interface|lower }}':
-        cli_file = os.path.join('{{ cookiecutter.project_slug }}', 'cli.py')
-        remove_file(cli_file)
+        remove_file('{{ cookiecutter.project_slug }}', 'cli.py')
 
     if 'Not open source' == '{{ cookiecutter.open_source_license }}':
         remove_file('LICENSE')

@@ -8,6 +8,7 @@ pytest
 pytest-cookies
 pytest-cases
 sh  # Needed for test for passing linters checks only
+PyHamcrest
 
 # Linters
 pre-commit

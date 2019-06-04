@@ -11,6 +11,7 @@ import sh
 import yaml
 import datetime
 from cookiecutter.utils import rmtree
+from hamcrest import assert_that, equal_to, has_key, is_, is_in, none, not_
 
 from click.testing import CliRunner
 from pytest_cases import pytest_fixture_plus
@@ -71,7 +72,7 @@ def test_year_compute_in_license_file(cookies):
     with bake_in_temp_dir(cookies) as result:
         license_file_path = pathlib.Path(result.project) / 'LICENSE'
         now = datetime.datetime.now()
-        assert str(now.year) in license_file_path.read_text()
+        assert_that(str(now.year), is_in(license_file_path.read_text()))
 
 
 def project_info(result) -> Tuple[pathlib.Path, str, pathlib.Path]:
@@ -85,14 +86,14 @@ def project_info(result) -> Tuple[pathlib.Path, str, pathlib.Path]:
 def test_bake_with_defaults(cookies):
     with bake_in_temp_dir(cookies) as result:
         project_path = pathlib.Path(result.project)
-        assert project_path.is_dir()
-        assert result.exit_code == 0
-        assert result.exception is None
+        assert_that(project_path.is_dir())
+        assert_that(result.exit_code, is_(equal_to(0)))
+        assert_that(result.exception, is_(none()))
 
-        assert project_path.joinpath('setup.py').is_file()
-        assert project_path.joinpath('python_boilerplate').is_dir()
-        assert project_path.joinpath('tox.ini').is_file()
-        assert project_path.joinpath('tests').is_dir()
+        assert_that(project_path.joinpath('setup.py').is_file())
+        assert_that(project_path.joinpath('python_boilerplate').is_dir())
+        assert_that(project_path.joinpath('tox.ini').is_file())
+        assert_that(project_path.joinpath('tests').is_dir())
 
 
 @pytest.mark.parametrize('name', [
@@ -105,10 +106,11 @@ def test_bake_and_run_tests(name, cookies):
     """Ensure that a `full_name` with certain symbols does not break setup.py."""
     with bake_in_temp_dir(cookies, extra_context={'full_name': name}) as result:
         project_path = pathlib.Path(result.project)
-        assert project_path.is_dir()
+        assert_that(project_path.is_dir())
         test_file_path = project_path / 'tests' / 'test_python_boilerplate.py'
-        assert test_file_path.is_file()
-        assert run_inside_dir('make test', str(result.project)) == 0
+        assert_that(test_file_path.is_file())
+        tests_exit_code = run_inside_dir('make test', str(project_path))
+        assert_that(tests_exit_code, is_(equal_to(0)))
 
 
 # def test_bake_and_run_travis_pypi_setup(cookies):
@@ -130,53 +132,53 @@ def test_bake_without_travis_pypi_setup(cookies):
     with bake_in_temp_dir(cookies, extra_context={'use_pypi_deployment_with_travis': 'n'}) as result:
         project_path = pathlib.Path(result.project)
         result_travis_config = yaml.load(project_path.joinpath(".travis.yml").open(), yaml.FullLoader)
-        assert "deploy" not in result_travis_config
-        assert "python" == result_travis_config["language"]
+        assert_that(result_travis_config, not_(has_key('deploy')))
+        assert_that(result_travis_config['language'], is_(equal_to('python')))
 
 
 def test_bake_without_author_file(cookies):
     with bake_in_temp_dir(cookies, extra_context={'create_author_file': 'n'}) as result:
         project_path = pathlib.Path(result.project)
 
-        assert not project_path.joinpath('AUTHORS.rst').exists()
-        assert not project_path.joinpath('docs', 'authors.rst').exists()
+        assert_that(not project_path.joinpath('AUTHORS.rst').exists())
+        assert_that(not project_path.joinpath('docs', 'authors.rst').exists())
 
         # Assert there are no spaces in the toc tree
         docs_index_path = project_path / 'docs' / 'index.rst'
-        assert 'contributing\n   history' in docs_index_path.read_text()
+        assert_that('contributing\n   history', is_in(docs_index_path.read_text()))
 
         # Check that
         manifest_path = project_path / 'MANIFEST.in'
-        assert 'AUTHORS.rst' not in manifest_path.read_text()
+        assert_that('AUTHORS.rst', not_(is_in(manifest_path.read_text())))
 
 
 def test_make_help(cookies):
     with bake_in_temp_dir(cookies) as result:
         output = check_output_inside_dir('make help', str(result.project))
-        assert b"check code coverage quickly with the default Python" in output
+        assert_that(b"check code coverage quickly with the default Python", is_in(output))
 
 
-def test_bake_selecting_license(cookies):
-    license_strings = {
-        'MIT license': 'MIT ',
-        'BSD license': 'Redistributions of source code must retain the above copyright notice, this',
-        'ISC license': 'ISC License',
-        'Apache Software License 2.0': 'Licensed under the Apache License, Version 2.0',
-        'GNU General Public License v3': 'GNU GENERAL PUBLIC LICENSE',
-    }
-    for license, target_string in license_strings.items():
-        with bake_in_temp_dir(cookies, extra_context={'open_source_license': license}) as result:
-            project_path = pathlib.Path(result.project)
-            assert target_string in project_path.joinpath('LICENSE').read_text()
-            assert license in project_path.joinpath('setup.py').read_text()
+@pytest.mark.parametrize('license_name,target_string', [
+    pytest.param('MIT license', 'MIT ', id='mit'),
+    pytest.param('BSD license', 'Redistributions of source code must retain the above copyright notice, this',
+                 id='bsd'),
+    pytest.param('ISC license', 'ISC License', id='isc'),
+    pytest.param('Apache Software License 2.0', 'Licensed under the Apache License, Version 2.0', id='apache'),
+    pytest.param('GNU General Public License v3', 'GNU GENERAL PUBLIC LICENSE', id='gnu'),
+])
+def test_bake_selecting_license(license_name, target_string, cookies):
+    with bake_in_temp_dir(cookies, extra_context={'open_source_license': license_name}) as result:
+        project_path = pathlib.Path(result.project)
+        assert_that(target_string, is_in(project_path.joinpath('LICENSE').read_text()))
+        assert_that(license_name, is_in(project_path.joinpath('setup.py').read_text()))
 
 
 def test_bake_not_open_source(cookies):
     with bake_in_temp_dir(cookies, extra_context={'open_source_license': 'Not open source'}) as result:
         project_path = pathlib.Path(result.project)
-        assert project_path.joinpath('setup.py').is_file()
-        assert not project_path.joinpath('LICENSE').exists()
-        assert 'License' not in project_path.joinpath('README.rst').read_text()
+        assert_that(project_path.joinpath('setup.py').is_file())
+        assert_that(not project_path.joinpath('LICENSE').exists())
+        assert_that('License', not_(is_in(project_path.joinpath('README.rst').read_text())))
 
 
 # def test_project_with_hyphen_in_module_name(cookies):
@@ -199,20 +201,20 @@ def test_bake_with_no_console_script(cookies):
     context = {'command_line_interface': "No command-line interface"}
     result = cookies.bake(extra_context=context)
     project_path, project_slug, project_dir = project_info(result)
-    assert not project_dir.joinpath('cli.py').exists()
+    assert_that(not project_dir.joinpath('cli.py').exists())
 
     setup_path = project_path / 'setup.py'
-    assert 'entry_points' not in setup_path.read_text()
+    assert_that('entry_points', not_(is_in(setup_path.read_text())))
 
 
 def test_bake_with_console_script_files(cookies):
     context = {'command_line_interface': 'click'}
     result = cookies.bake(extra_context=context)
     project_path, project_slug, project_dir = project_info(result)
-    assert project_dir.joinpath('cli.py').is_file()
+    assert_that(project_dir.joinpath('cli.py').is_file())
 
     setup_path = project_path / 'setup.py'
-    assert 'entry_points' in setup_path.read_text()
+    assert_that('entry_points', is_in(setup_path.read_text()))
 
 
 def test_bake_with_console_script_cli(cookies):
@@ -232,12 +234,12 @@ def test_bake_with_console_script_cli(cookies):
         cli = imp.load_source(module_name, module_path)
     runner = CliRunner()
     noarg_result = runner.invoke(cli.main)
-    assert noarg_result.exit_code == 0
+    assert_that(noarg_result.exit_code, is_(equal_to(0)))
     noarg_output = ' '.join(['Replace this message by putting your code into', project_slug])
-    assert noarg_output in noarg_result.output
+    assert_that(noarg_output, is_in(noarg_result.output))
     help_result = runner.invoke(cli.main, ['--help'])
-    assert help_result.exit_code == 0
-    assert 'Show this message' in help_result.output
+    assert_that(help_result.exit_code, is_(equal_to(0)))
+    assert_that('Show this message', is_in(help_result.output))
 
 
 YN_CHOICES = ['y', 'n']

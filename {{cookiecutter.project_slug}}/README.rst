@@ -54,6 +54,11 @@ All tests should be placed inside ``tests/`` directory and (ideally) follow the 
 for ``{{cookiecutter.project_slug}}.some_package.some_module`` should be located at
 ``tests/some_package/test_some_module.py``
 
+For assertions either default python's ``assert`` can be used, or more specific assertions from PyHamcrest_ - may be
+useful for complex assertions and just more readable.
+
+.. _PyHamcrest: https://pyhamcrest.readthedocs.io/en/release-1.8/library/
+
 To run tests: ``make test``.
 To run tests and receive a coverage statistics: ``make coverage``.
 

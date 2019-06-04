@@ -13,6 +13,7 @@ pygments # Required for restructuredtext-lint
 # Tests
 pytest
 pytest-cov
+PyHamcrest
 
 wheel==0.32.1
 watchdog==0.9.0

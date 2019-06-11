@@ -10,6 +10,10 @@ yamllint
 restructuredtext-lint
 pygments # Required for restructuredtext-lint
 
+wemake-python-styleguide
+yesqa
+
+
 # Tests
 pytest
 pytest-cov
@@ -17,7 +21,6 @@ PyHamcrest
 
 wheel==0.32.1
 watchdog==0.9.0
-flake8==3.5.0
 tox==3.5.2
 Sphinx==1.8.1
 twine==1.12.1

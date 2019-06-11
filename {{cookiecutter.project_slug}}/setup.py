@@ -3,7 +3,7 @@
 
 """The setup script."""
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
@@ -11,7 +11,7 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = [{%- if cookiecutter.command_line_interface|lower == 'click' %}'Click>=6.0',{%- endif %} ]
+requirements = [{%- if cookiecutter.command_line_interface|lower == 'click' %}'Click>=6.0'{%- endif %}]
 
 setup_requirements = ['pytest-runner']
 
@@ -26,7 +26,7 @@ test_requirements = ['pytest']
 } %}
 
 setup(
-    author="{{ cookiecutter.full_name.replace('\"', '\\\"') }}",
+    author='{{ cookiecutter.full_name.replace("\'", "\\\'") }}',
     author_email='{{ cookiecutter.email }}',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
@@ -35,7 +35,7 @@ setup(
         '{{ license_classifiers[cookiecutter.open_source_license] }}',
 {%- endif %}
         'Natural Language :: English',
-        "Programming Language :: Python :: 2",
+        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
@@ -43,7 +43,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
     ],
-    description="{{ cookiecutter.project_short_description }}",
+    description='{{ cookiecutter.project_short_description.replace("\'", "\\\'") }}',
     {%- if 'no' not in cookiecutter.command_line_interface|lower %}
     entry_points={
         'console_scripts': [
@@ -53,7 +53,7 @@ setup(
     {%- endif %}
     install_requires=requirements,
 {%- if cookiecutter.open_source_license in license_classifiers %}
-    license="{{ cookiecutter.open_source_license }}",
+    license='{{ cookiecutter.open_source_license }}',
 {%- endif %}
     long_description=readme + '\n\n' + history,
     include_package_data=True,

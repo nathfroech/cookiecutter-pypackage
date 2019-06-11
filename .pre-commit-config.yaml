@@ -87,19 +87,31 @@ repos:
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: v1.4.0
     hooks:
-      - id: python-check-blanket-noqa  # Enforce that noqa annotations always occur with specific codes
-        stages:
-          - commit
       - id: python-check-mock-methods  # Prevent a mistake of assert mck.not_called() or assert mck.called_once_with()
-        stages:
-          - commit
-      - id: python-no-eval  # A quick check for the eval() built-in function
         stages:
           - commit
       - id: python-no-log-warn  # A quick check for the deprecated .warn() method of python loggers
         stages:
           - commit
       - id: python-use-type-annotations  # Enforce that python3.6+ type annotations are used instead of type comments
+        stages:
+          - commit
+  - repo: local
+    hooks:
+      - id: flake8
+        name: Check python files (code style - flake8)
+        entry: flake8
+        language: system
+        args: [--config=setup.cfg]
+        types: [python]
+        stages:
+          - commit
+      # This hook will change files
+      - id: yesqa
+        name: Check python files (obsolete noqa comments)
+        entry: yesqa
+        language: system
+        types: [python]
         stages:
           - commit
   # Other specific files and file types checks

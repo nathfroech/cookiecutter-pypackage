@@ -9,6 +9,10 @@ Cookiecutter PyPackage
 .. image:: https://travis-ci.org/audreyr/cookiecutter-pypackage.svg?branch=master
     :target: https://travis-ci.org/audreyr/cookiecutter-pypackage
 
+.. image:: https://img.shields.io/badge/style-wemake-000000.svg
+    :target: https://github.com/wemake-services/wemake-python-styleguide
+    :alt: wemake.services code style
+
 Cookiecutter_ template for a Python package.
 
 * GitHub repo: https://github.com/audreyr/cookiecutter-pypackage/

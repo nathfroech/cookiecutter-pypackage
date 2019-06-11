@@ -15,6 +15,10 @@
         :alt: Documentation Status
 {%- endif %}
 
+.. image:: https://img.shields.io/badge/style-wemake-000000.svg
+    :target: https://github.com/wemake-services/wemake-python-styleguide
+    :alt: wemake.services code style
+
 {% if cookiecutter.add_pyup_badge == 'y' %}
 .. image:: https://pyup.io/repos/github/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/shield.svg
      :target: https://pyup.io/repos/github/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/

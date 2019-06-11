@@ -10,8 +10,12 @@ pytest-cases
 sh  # Needed for test for passing linters checks only
 PyHamcrest
 
+
 # Linters
 pre-commit
 yamllint
 restructuredtext-lint
 pygments  # Required for restructuredtext-lint
+
+wemake-python-styleguide
+yesqa

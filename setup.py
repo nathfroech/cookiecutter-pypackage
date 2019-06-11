@@ -1,6 +1,7 @@
 # !/usr/bin/env python
 
 from distutils.core import setup
+
 setup(
     name='cookiecutter-pypackage',
     packages=[],
@@ -10,7 +11,7 @@ setup(
     license='BSD',
     author_email='aroy@alum.mit.edu',
     url='https://github.com/audreyr/cookiecutter-pypackage',
-    keywords=['cookiecutter', 'template', 'package', ],
+    keywords=['cookiecutter', 'template', 'package'],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',

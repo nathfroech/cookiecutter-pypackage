@@ -10,6 +10,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Updated `.editorconfig` content (@nathfroech)
 - Made `pytest` mandatory (@nathfroech)
+- Updated `flake8` configuration to rules based on
+ [wemake.services linter](https://github.com/wemake-services/wemake-python-styleguide) (@nathfroech)
 
 ## [2019-05-09]
 - Forked from original repository.

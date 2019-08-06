@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import pathlib
 import re
 
@@ -20,7 +18,7 @@ def clean_file_contents():
             file_content = re.sub(r'[ \t]+\n', '\n', file_content)
             # Python files may use two empty lines to separate code blocks (classes, etc.). Each particular case for
             # them will be checked by language-specific linters. For other files one empty line is enough.
-            if file_path.suffix in ('.py',):
+            if file_path.suffix in {'.py'}:
                 file_content = re.sub(r'\n{4,}', '\n\n\n', file_content, flags=re.MULTILINE)
             else:
                 file_content = re.sub(r'\n{3,}', '\n\n', file_content, flags=re.MULTILINE)
@@ -32,14 +30,14 @@ def clean_file_contents():
 
 if __name__ == '__main__':
 
-    if '{{ cookiecutter.create_author_file }}' != 'y':  # noqa: Z308
+    if '{{ cookiecutter.create_author_file }}' != 'y':  # noqa: WPS308
         remove_file('AUTHORS.rst')
         remove_file('docs', 'authors.rst')
 
-    if 'no' in '{{ cookiecutter.command_line_interface|lower }}':  # noqa: Z308
+    if 'no' in '{{ cookiecutter.command_line_interface|lower }}':  # noqa: WPS308
         remove_file('{{ cookiecutter.project_slug }}', 'cli.py')
 
-    if 'Not open source' == '{{ cookiecutter.open_source_license }}':  # noqa: Z308
+    if 'Not open source' == '{{ cookiecutter.open_source_license }}':  # noqa: WPS308
         remove_file('LICENSE')
 
     clean_file_contents()

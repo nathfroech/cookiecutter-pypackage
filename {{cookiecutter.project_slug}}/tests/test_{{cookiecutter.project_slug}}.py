@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 """Tests for `{{ cookiecutter.project_slug }}` package."""
 {%- if cookiecutter.command_line_interface|lower == 'click' %}
 from click.testing import CliRunner

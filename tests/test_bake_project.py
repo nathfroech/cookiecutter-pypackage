@@ -18,9 +18,9 @@ from pytest_cases import pytest_fixture_plus
 import settings
 
 if sys.version_info > (3, 0):
-    import importlib  # noqa: Z435
+    import importlib  # noqa: WPS433
 else:
-    import imp  # noqa: Z435
+    import imp  # noqa: WPS433
 
 
 @contextmanager
@@ -31,7 +31,7 @@ def inside_dir(dirpath):
     :param dirpath: String, path of the directory the command is being run.
     """
     old_path = os.getcwd()
-    try:  # noqa: Z437
+    try:  # noqa: WPS501
         os.chdir(dirpath)
         yield
     finally:
@@ -47,7 +47,7 @@ def bake_in_temp_dir(cookies, *args, **kwargs):
         cookie to be baked and its temporal files will be removed
     """
     baked_result = cookies.bake(*args, **kwargs)
-    try:  # noqa: Z437
+    try:  # noqa: WPS501
         yield baked_result
     finally:
         rmtree(str(baked_result.project))
@@ -188,7 +188,7 @@ def test_bake_with_console_script_files(cookies):
     assert_that('entry_points', is_in(project_path.joinpath('setup.py').read_text()))
 
 
-def test_bake_with_console_script_cli(cookies):  # noqa: Z210
+def test_bake_with_console_script_cli(cookies):  # noqa: WPS210
     context = {'command_line_interface': 'click'}
     baked_result = cookies.bake(extra_context=context)
     project_path, project_slug, project_dir = project_info(baked_result)
@@ -213,18 +213,18 @@ def test_bake_with_console_script_cli(cookies):  # noqa: Z210
     assert_that('Show this message', is_in(help_result.output))
 
 
-YN_CHOICES = ['y', 'n']
-LICENSE_CHOICES = [
+YN_CHOICES = ('y', 'n')
+LICENSE_CHOICES = (
     'MIT license',
     'BSD license',
     'ISC license',
     'Apache Software License 2.0',
     'GNU General Public License v3',
     'Not open source',
-]
+)
 
 
-@pytest_fixture_plus  # noqa: Z216
+@pytest_fixture_plus  # noqa: WPS216
 @pytest.mark.parametrize('use_pypi_deployment_with_travis', YN_CHOICES, ids=lambda yn: 'pypi_travis:{0}'.format(yn))
 @pytest.mark.parametrize('add_pyup_badge', YN_CHOICES, ids=lambda yn: 'pyup:{0}'.format(yn))
 @pytest.mark.parametrize(
@@ -236,7 +236,7 @@ LICENSE_CHOICES = [
 @pytest.mark.parametrize(
     'open_source_license',
     LICENSE_CHOICES,
-    ids=lambda yn: 'license:{0}'.format({yn.lower().replace(' ', '_').replace('.', '_')}),  # noqa: Z221
+    ids=lambda yn: 'license:{0}'.format({yn.lower().replace(' ', '_').replace('.', '_')}),  # noqa: WPS221
 )
 def context_combination(
     use_pypi_deployment_with_travis,

@@ -1,13 +1,12 @@
-=======
-Credits
-=======
+Authors
+-------
 
-Development Lead
-----------------
+Core Developers
+~~~~~~~~~~~~~~~
 
-* {{ cookiecutter.full_name }} <{{ cookiecutter.email }}>
+* {{ cookiecutter.full_name }}
 
 Contributors
-------------
+~~~~~~~~~~~~
 
 None yet. Why not be the first?

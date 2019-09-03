@@ -13,6 +13,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Updated `flake8` configuration to rules based on
  [wemake.services linter](https://github.com/wemake-services/wemake-python-styleguide) (@nathfroech)
  - Removed additional checks for Python 2, added restriction for Python 3.6+ (@nathfroech)
+ ### Removed
+ - Removed parameter for setting author email (@nathfroech)
 
 ## [2019-05-09]
 - Forked from original repository.

@@ -11,9 +11,6 @@ The following appear in various parts of your generated project.
 full_name
     Your full name.
 
-email
-    Your email address.
-
 github_username
     Your GitHub username.
 

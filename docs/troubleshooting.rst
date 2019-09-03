@@ -19,12 +19,12 @@ Windows Issues
 
 .. code-block:: powershell
 
-    > c:\Python35\python -m venv myenv
+    > c:\Python36\python -m venv myenv
 
 Or:
 
 .. code-block:: powershell
 
-    > c:\Python35\python c:\Python35\Tools\Scripts\pyvenv.py myenv
+    > c:\Python36\python c:\Python36\Tools\Scripts\pyvenv.py myenv
 
 * Some people have reported that they have to re-activate their virtualenv whenever they change directory, so you should remember the path to the virtualenv in case you need it.

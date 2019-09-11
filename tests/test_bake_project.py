@@ -96,6 +96,7 @@ def test_bake_with_defaults(cookies):
         assert_that(project_path.joinpath('python_boilerplate').is_dir())
         assert_that(project_path.joinpath('tox.ini').is_file())
         assert_that(project_path.joinpath('tests').is_dir())
+        assert_that(not project_path.joinpath('helpers', 'generate_env_file.py').exists())
 
 
 @pytest.mark.parametrize('name', [
@@ -213,6 +214,14 @@ def test_bake_with_console_script_cli(cookies):  # noqa: WPS210
     assert_that('Show this message', is_in(help_result.output))
 
 
+def test_bake_with_environment_based_settings(cookies):
+    with bake_in_temp_dir(cookies, extra_context={'use_environment_based_settings': 'y'}) as baked_result:
+        project_path = pathlib.Path(baked_result.project)
+
+        assert_that(project_path.joinpath('helpers', 'generate_env_file.py').is_file())
+        assert_that(project_path.joinpath('.env').is_file())
+
+
 YN_CHOICES = ('y', 'n')
 LICENSE_CHOICES = (
     'MIT license',
@@ -224,7 +233,7 @@ LICENSE_CHOICES = (
 )
 
 
-@pytest_fixture_plus  # noqa: WPS216
+@pytest_fixture_plus  # noqa: WPS211,WPS216
 @pytest.mark.parametrize('use_pypi_deployment_with_travis', YN_CHOICES, ids=lambda yn: 'pypi_travis:{0}'.format(yn))
 @pytest.mark.parametrize('add_pyup_badge', YN_CHOICES, ids=lambda yn: 'pyup:{0}'.format(yn))
 @pytest.mark.parametrize(
@@ -238,12 +247,14 @@ LICENSE_CHOICES = (
     LICENSE_CHOICES,
     ids=lambda yn: 'license:{0}'.format({yn.lower().replace(' ', '_').replace('.', '_')}),  # noqa: WPS221
 )
+@pytest.mark.parametrize('use_environment_based_settings', YN_CHOICES, ids=lambda yn: 'dotenv:{0}'.format(yn))
 def context_combination(
     use_pypi_deployment_with_travis,
     add_pyup_badge,
     command_line_interface,
     create_author_file,
     open_source_license,
+    use_environment_based_settings,
 ):
     """Fixture that parametrize the function where it's used."""
     return {
@@ -252,6 +263,7 @@ def context_combination(
         'command_line_interface': command_line_interface,
         'create_author_file': create_author_file,
         'open_source_license': open_source_license,
+        'use_environment_based_settings': use_environment_based_settings,
     }
 
 

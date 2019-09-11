@@ -35,7 +35,15 @@
 
 Getting started
 ---------------
+{% if cookiecutter.use_environment_based_settings == 'y' -%}
+Settings configuration
+^^^^^^^^^^^^^^^^^^^^^^
+All environment-dependent or confidential settings should be declared as environment variables. As an alternative, you
+may create ``.env`` file at project root, which would contain all such variables.
 
+Command ``make env_file`` will create such file with defaults, that should be replaced with actual values.
+
+{%- endif %}
 Updating requirements
 ^^^^^^^^^^^^^^^^^^^^^
 Project uses `pip-tools

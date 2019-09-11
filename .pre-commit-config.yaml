@@ -64,14 +64,14 @@ repos:
     rev: v2.2.3
     hooks:
       - id: check-ast  # Simply check whether the files parse as valid python.
-        exclude: '\{\{cookiecutter.project_slug\}\}/(docs/conf)|(setup)|(tests/test_\{\{cookiecutter.project_slug\}\})\.py'  # yamllint disable-line rule:line-length
+        exclude: '\{\{cookiecutter.project_slug\}\}/(docs/conf)|(setup)|(tests/test_\{\{cookiecutter.project_slug\}\})|(\{\{cookiecutter.project_slug\}\}/settings)\.py'  # yamllint disable-line rule:line-length
         stages:
           - commit
       - id: check-docstring-first  # Checks a common error of defining a docstring after code.
         stages:
           - commit
       - id: debug-statements  # Check for debugger imports and py37+ `breakpoint()` calls in python source.
-        exclude: '\{\{cookiecutter.project_slug\}\}/(docs/conf)|(setup)|(tests/test_\{\{cookiecutter.project_slug\}\})\.py'  # yamllint disable-line rule:line-length
+        exclude: '\{\{cookiecutter.project_slug\}\}/(docs/conf)|(setup)|(tests/test_\{\{cookiecutter.project_slug\}\})|(\{\{cookiecutter.project_slug\}\}/settings)\.py'  # yamllint disable-line rule:line-length
         stages:
           - commit
   - repo: local

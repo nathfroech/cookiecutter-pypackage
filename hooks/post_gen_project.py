@@ -1,5 +1,7 @@
 import pathlib
 import re
+import shlex
+import subprocess
 
 PROJECT_DIRECTORY = pathlib.Path.cwd()
 
@@ -39,5 +41,11 @@ if __name__ == '__main__':
 
     if 'Not open source' == '{{ cookiecutter.open_source_license }}':  # noqa: WPS308
         remove_file('LICENSE')
+
+    if '{{ cookiecutter.use_environment_based_settings }}' == 'y':  # noqa: WPS308
+        dotenv_generator = PROJECT_DIRECTORY / 'helpers' / 'generate_env_file.py'
+        subprocess.call(['python3', shlex.quote(str(dotenv_generator))])  # noqa: S607
+    else:
+        remove_file('helpers', 'generate_env_file.py')
 
     clean_file_contents()

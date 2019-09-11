@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added `pip-tools` for requirements management (@nathfroech)
 - Added `pre-commit` for running linters against commited changes (@nathfroech)
 - Added `PyHamcrest` for test assertions (@nathfroech)
+- Added option to use `environs` for environment-based settings (@nathfroech)
 ### Changed
 - Updated `.editorconfig` content (@nathfroech)
 - Made `pytest` mandatory (@nathfroech)

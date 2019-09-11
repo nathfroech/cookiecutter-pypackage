@@ -91,3 +91,9 @@ install: clean ## install the package to the active Python's site-packages
 .PHONY: update_requirements
 update_requirements:
 	bash helpers/update_requirements.sh
+
+{%- if cookiecutter.use_environment_based_settings == 'y' -%}
+.PHONY: env_file
+env_file:
+	@python helpers/generate_env_file.py
+{%- endif -%}

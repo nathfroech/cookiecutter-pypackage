@@ -96,4 +96,4 @@ update_requirements:
 .PHONY: env_file
 env_file:
 	@python helpers/generate_env_file.py
-{%- endif -%}
+{%- endif %}

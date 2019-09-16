@@ -48,7 +48,7 @@ Updating requirements
 ^^^^^^^^^^^^^^^^^^^^^
 Project uses `pip-tools
 <https://github.com/jazzband/pip-tools>`_ for requirements management. If you need to add a new requirement, go to
-``requirements`` directory and change the corresponding \*.in file. After that call ``make update_requirements`` to
+``requirements`` directory and change the corresponding \*.in file. After that call ``make requirements`` to
 compile \*.txt files and synchronize local environment.
 
 For requirements installation in CI or production environments it is enough to simply call ``pip install -r

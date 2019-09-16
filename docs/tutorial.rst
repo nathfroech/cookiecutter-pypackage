@@ -95,7 +95,7 @@ requirements:
 
 .. code-block:: bash
 
-    make update_requirements
+    make requirements
 
 
 Step 5: Set Up Travis CI

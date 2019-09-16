@@ -9,5 +9,5 @@ set -e
 # Be aware, that if conflict is in the latest versions of both tools, it should be fixed manually by freezing pip-tools
 # version in requirements.
 pip install -U pip pip-tools
-pip-compile "requirements.in" -o "requirements.txt" --upgrade-package pip-tools > /dev/null
+pip-compile "requirements.in" -o "requirements.txt" --upgrade-package pip-tools --no-header -q
 pip-sync "requirements.txt"

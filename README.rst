@@ -63,7 +63,7 @@ Then:
 
 * Create a repo and put it there.
 * Add the repo to your Travis-CI_ account.
-* Install the dev requirements into a virtualenv. (``make update_requirements``)
+* Install the dev requirements into a virtualenv. (``make requirements``)
 * Run ``pre-commit`` to be sure there are no check failures or unneeded checks.::
 
     pre-commit install

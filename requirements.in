@@ -1,7 +1,9 @@
-tox==2.9.1
-cookiecutter>=1.4.0
-watchdog==0.8.3
-alabaster==0.7.10
+pip-tools
+
+tox
+cookiecutter
+watchdog
+alabaster
 
 # Tests
 pytest
@@ -19,3 +21,13 @@ pygments  # Required for restructuredtext-lint
 
 wemake-python-styleguide
 yesqa
+
+
+# Additional dependencies from internal project template - may be needed for some tests
+bumpversion
+click
+environs
+pytest-cov
+wheel
+Sphinx
+twine

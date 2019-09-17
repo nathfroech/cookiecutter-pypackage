@@ -5,7 +5,7 @@ import shlex
 import subprocess
 import sys
 from contextlib import contextmanager
-from typing import Tuple
+from typing import Tuple, Union
 
 import pytest
 import sh
@@ -53,7 +53,7 @@ def bake_in_temp_dir(cookies, *args, **kwargs):
         rmtree(str(baked_result.project))
 
 
-def run_inside_dir(command, dirpath):
+def run_inside_dir(command: str, dirpath: str) -> Union[int, None]:
     """
     Run a command from inside a given directory, returning the exit status.
 
@@ -64,7 +64,7 @@ def run_inside_dir(command, dirpath):
         return subprocess.check_call(shlex.split(command))
 
 
-def check_output_inside_dir(command, dirpath):
+def check_output_inside_dir(command: str, dirpath: str) -> bytes:
     """Run a command from inside a given directory, returning the command output."""
     with inside_dir(dirpath):
         return subprocess.check_output(shlex.split(command))

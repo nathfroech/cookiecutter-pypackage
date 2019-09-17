@@ -6,11 +6,11 @@ import subprocess
 PROJECT_DIRECTORY = pathlib.Path.cwd()
 
 
-def remove_file(*filepath_terms: str):
+def remove_file(*filepath_terms: str) -> None:
     PROJECT_DIRECTORY.joinpath(*filepath_terms).unlink()
 
 
-def clean_file_contents():
+def clean_file_contents() -> None:
     """Clean generated files from trailing whitespaces and extra newlines."""
     for file_path in PROJECT_DIRECTORY.rglob('*'):
         if file_path.is_file():

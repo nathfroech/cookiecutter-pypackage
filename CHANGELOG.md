@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added `pre-commit` for running linters against commited changes (@nathfroech)
 - Added `PyHamcrest` for test assertions (@nathfroech)
 - Added option to use `environs` for environment-based settings (@nathfroech)
+- Configured `mypy` (@nathfroech)
 ### Changed
 - Updated `.editorconfig` content (@nathfroech)
 - Made `pytest` mandatory (@nathfroech)

@@ -9,6 +9,7 @@ pre-commit
 yamllint
 restructuredtext-lint
 pygments # Required for restructuredtext-lint
+mypy
 
 wemake-python-styleguide
 yesqa

@@ -11,7 +11,7 @@ All environment-based settings should be declared here too.
 import pathlib
 {%- if cookiecutter.use_environment_based_settings %}
 
-from dotenv import load_dotenv
+from dotenv import load_dotenv  # type: ignore
 from environs import Env
 
 load_dotenv()

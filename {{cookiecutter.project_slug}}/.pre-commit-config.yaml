@@ -110,6 +110,15 @@ repos:
         types: [python]
         stages:
           - commit
+      - id: mypy
+        name: Check python files (typing - mypy)
+        entry: mypy
+        language: system
+        args: [--config-file, setup.cfg]
+        types: [python]
+        exclude: 'docs/conf\.py|setup\.py'
+        stages:
+          - commit
   # Other specific files and file types checks
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v2.2.3

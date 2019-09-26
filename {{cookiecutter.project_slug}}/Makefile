@@ -1,4 +1,4 @@
-.PHONY: clean clean-test clean-pyc clean-build docs help
+.PHONY: docs help
 .DEFAULT_GOAL := help
 
 define BROWSER_PYSCRIPT
@@ -28,27 +28,6 @@ BROWSER := python -c "$$BROWSER_PYSCRIPT"
 
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
-
-clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
-
-clean-build: ## remove build artifacts
-	rm -fr build/
-	rm -fr dist/
-	rm -fr .eggs/
-	find . -name '*.egg-info' -exec rm -fr {} +
-	find . -name '*.egg' -exec rm -f {} +
-
-clean-pyc: ## remove Python file artifacts
-	find . -name '*.pyc' -exec rm -f {} +
-	find . -name '*.pyo' -exec rm -f {} +
-	find . -name '*~' -exec rm -f {} +
-	find . -name '__pycache__' -exec rm -fr {} +
-
-clean-test: ## remove test and coverage artifacts
-	rm -fr .tox/
-	rm -f .coverage
-	rm -fr htmlcov/
-	rm -fr .pytest_cache
 
 .PHONY: lint
 lint:
@@ -97,3 +76,38 @@ requirements:
 env_file:
 	@python helpers/generate_env_file.py
 {%- endif %}
+
+.PHONY: clean-build
+clean-build: ## remove build artifacts
+	rm -rf build/
+	rm -rf dist/
+	rm -rf .eggs/
+	find . -name '*.egg-info' -delete
+	find . -name '*.egg' -delete
+
+.PHONY: clean-pyc
+clean-pyc: ## remove Python file artifacts
+	find . -name '*.pyc' -delete
+	find . -name '*.pyo' -delete
+	## Files with tilde at the end of their name are backup files, created by some editors
+	find . -name '*~' -delete
+	find . -name '__pycache__' -delete
+
+.PHONY: clean-test
+clean-test: ## remove test and coverage artifacts
+	rm -rf .tox/
+	rm -f .coverage
+	rm -rf htmlcov/
+	rm -rf .pytest_cache/
+	rm -rf .mypy_cache/
+
+.PHONY: clean
+clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
+
+.PHONY: clean-ignored
+clean-ignored: ## remove all files, listed in .gitignore
+	git clean -fxd
+
+.PHONY: clean-ignored-with-git
+clean-ignored-with-git: clean-ignored ## remove all files, listed in .gitignore, and .git directory itself
+	rm -rf .git/

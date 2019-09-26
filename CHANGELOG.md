@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added `PyHamcrest` for test assertions (@nathfroech)
 - Added option to use `environs` for environment-based settings (@nathfroech)
 - Configured `mypy` (@nathfroech)
+- Added commands for full project cleanup (@nathfroech)
 ### Changed
 - Updated `.editorconfig` content (@nathfroech)
 - Made `pytest` mandatory (@nathfroech)
